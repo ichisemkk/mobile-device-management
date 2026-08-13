@@ -66,14 +66,13 @@ public class SecurityConfig {
                                     "{\"result\":\"success\",\"message\":\"ログアウトしました\"}"
                             );
                         })
-                )
+                );
 
-                .httpBasic(basic -> {});
 
         return http.build();
     }
     @Bean
-    public AuthenticationManager authenticationManager(
+    public AuthenticationManager authenticaionManager(
             AuthenticationConfiguration configuration) throws Exception {
 
         return configuration.getAuthenticationManager();
