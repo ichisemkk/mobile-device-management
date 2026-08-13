@@ -1,4 +1,8 @@
-function MobileDeviceList({ mobiles, onLogout }) {
+import { useState } from "react";
+
+function MobileDeviceList({ mobiles, onLogout, onShowDetail }) {
+  const [selectedMobileId, setSelectedMobileId] = useState(null);
+
   return (
     <>
       <header>
@@ -9,6 +13,21 @@ function MobileDeviceList({ mobiles, onLogout }) {
 
       <main>
         <h2>移動機一覧</h2>
+
+        {/* 詳細表示ボタン */}
+        <button
+          disabled={selectedMobileId === null}
+          onClick={() => onShowDetail(selectedMobileId)}
+        >
+          詳細
+        </button>
+
+        {/* 動作確認用 どのIDが選択されているか画面に表示する*/}
+        <p>
+          選択中ID：
+          {selectedMobileId === null ? "未選択" : selectedMobileId}
+        </p>
+        {/* 動作確認用 */}
 
         {mobiles.length === 0 ? (
           <p>登録されている移動機はありません。</p>
@@ -26,7 +45,13 @@ function MobileDeviceList({ mobiles, onLogout }) {
 
             <tbody>
               {mobiles.map((mobile) => (
-                <tr key={mobile.mobileId}>
+                <tr
+                  key={mobile.mobileId}
+                  onClick={() => setSelectedMobileId(mobile.mobileId)}
+                  className={
+                    selectedMobileId === mobile.mobileId ? "selected-row" : ""
+                  }
+                >
                   <td>{mobile.mobileId}</td>
                   <td>{mobile.mobileName}</td>
                   <td>{mobile.macAddress}</td>
