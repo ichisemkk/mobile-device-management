@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 function MobileDeviceList({ mobiles, onLogout, onShowDetail }) {
+  const navigate = useNavigate();
+
   const [selectedMobileId, setSelectedMobileId] = useState(null);
 
   return (
@@ -17,7 +20,7 @@ function MobileDeviceList({ mobiles, onLogout, onShowDetail }) {
         {/* 詳細表示ボタン */}
         <button
           disabled={selectedMobileId === null}
-          onClick={() => onShowDetail(selectedMobileId)}
+          onClick={() => navigate(`/mobile-devices/${selectedMobileId}`)}
         >
           詳細
         </button>

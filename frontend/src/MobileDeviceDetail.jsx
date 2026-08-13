@@ -1,4 +1,41 @@
-function MobileDeviceDetail({ mobile, onBack }) {
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
+
+function MobileDeviceDetail() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const [mobile, setMobile] = useState(null);
+
+  useEffect(() => {
+    const fetchMobileDetail = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/mobile-devices/${id}`,
+          {
+            method: "GET",
+            credentials: "include",
+          },
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setMobile(data);
+        } else {
+          console.log("移動機詳細の取得に失敗しました");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchMobileDetail();
+  }, [id]);
+
+  if (!mobile) {
+    return <p>読み込み中...</p>;
+  }
+
   return (
     <>
       <header>
@@ -16,7 +53,7 @@ function MobileDeviceDetail({ mobile, onBack }) {
         <p>ドライババージョン：{mobile.driverVersion}</p>
         <p>ステータス：{mobile.status}</p>
 
-        <button onClick={onBack}>一覧へ戻る</button>
+        <button onClick={() => navigate("/mobile-devices")}>一覧へ戻る</button>
       </main>
     </>
   );
