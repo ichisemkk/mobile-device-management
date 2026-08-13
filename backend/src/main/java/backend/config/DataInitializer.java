@@ -31,7 +31,7 @@ public class DataInitializer implements CommandLineRunner {
             user.setLoginId("admin");
 
             user.setPassword(
-                    passwordEncoder.encode("password123")
+                    passwordEncoder.encode("pass")
             );
 
             userRepository.save(user);
