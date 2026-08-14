@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import MobileDeviceList from "./MobileDeviceList";
 import Login from "./Login";
 import MobileDeviceDetail from "./MobileDeviceDetail";
+import MobileDeviceCreate from "./MobileDeviceCreate";
 
 function App() {
   const navigate = useNavigate();
@@ -141,6 +142,7 @@ function App() {
           />
         }
       />
+
       {/* 移動機一覧画面：未ログインならログイン画面へ */}
       <Route
         path="/mobile-devices"
@@ -152,6 +154,19 @@ function App() {
           )
         }
       />
+
+      {/* 移動機新規登録画面 */}
+      <Route
+        path="/mobile-devices/new"
+        element={
+          authenticated ? (
+            <MobileDeviceCreate />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+
       {/* 移動機詳細画面  :id に選択した移動機IDが入る */}
       <Route
         path="/mobile-devices/:id"

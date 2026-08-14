@@ -25,6 +25,11 @@ function MobileDeviceList({ mobiles, onLogout, onShowDetail }) {
           詳細
         </button>
 
+        {/* 新規登録ボタン */}
+        <button onClick={() => navigate("/mobile-devices/new")}>
+          新規登録
+        </button>
+
         {/* 動作確認用 どのIDが選択されているか画面に表示する*/}
         <p>
           選択中ID：
