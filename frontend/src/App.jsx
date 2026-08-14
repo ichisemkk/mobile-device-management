@@ -1,6 +1,6 @@
 import "./App.css";
 import { Routes, Route, Navigate, useNavigate } from "react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MobileDeviceList from "./MobileDeviceList";
 import Login from "./Login";
 import MobileDeviceDetail from "./MobileDeviceDetail";
@@ -11,7 +11,34 @@ function App() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
+  const [authChecking, setAuthChecking] = useState(true);
   const [mobiles, setMobiles] = useState([]);
+
+  // /auth/me でログイン状態を確認
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/auth/me", {
+          method: "GET",
+          credentials: "include",
+        });
+
+        if (response.ok) {
+          setAuthenticated(true);
+          await fetchMobiles();
+        } else {
+          setAuthenticated(false);
+        }
+      } catch (error) {
+        console.error(error);
+        setAuthenticated(false);
+      } finally {
+        setAuthChecking(false);
+      }
+    };
+
+    checkAuthentication();
+  }, []);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -91,6 +118,11 @@ function App() {
     }
   };
 
+  // 認証確認が終わるまではRoutesを表示しない
+  if (authChecking) {
+    return <p>認証状態を確認中...</p>;
+  }
+
   // URLに応じてログイン画面・移動機一覧画面・移動機詳細画面を切り替える
   // 未ログインの場合はログイン画面へリダイレクトする
   return (
@@ -114,10 +146,7 @@ function App() {
         path="/mobile-devices"
         element={
           authenticated ? (
-            <MobileDeviceList
-              mobiles={mobiles}
-              onLogout={handleLogout}
-            />
+            <MobileDeviceList mobiles={mobiles} onLogout={handleLogout} />
           ) : (
             <Navigate to="/login" replace />
           )
