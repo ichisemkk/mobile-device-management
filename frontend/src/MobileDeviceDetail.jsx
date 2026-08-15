@@ -9,7 +9,7 @@ function MobileDeviceDetail() {
   const [error, setError] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [originalMobile, setOriginalMobile] = useState(null);
-  
+
   // TODO: 詳細画面で更新後、一覧データを再取得する
 
   //URLの id を使って移動機の詳細データを取得する処理
@@ -44,7 +44,7 @@ function MobileDeviceDetail() {
     fetchMobileDetail();
   }, [id]);
 
-  //   更新ボタンで PUT /mobile-devices/{id} を呼んでDB更新
+  //更新関数 PUT /mobile-devices/{id} を呼んでDB更新
   const handleUpdate = async () => {
     try {
       const response = await fetch(
@@ -73,6 +73,35 @@ function MobileDeviceDetail() {
     } catch (error) {
       console.error(error);
       setError("通信エラーが発生しました。");
+    }
+  };
+
+  //削除関数 PUT /mobile-devices/{id} を使ってDB更新
+  const handleDelete = async () => {
+    const confirmed = window.confirm("本当に削除しますか？");
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:8080/mobile-devices/${id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        },
+      );
+
+      if (response.ok) {
+        alert("削除しました");
+        navigate("/mobile-devices");
+      } else {
+        alert("移動機の削除に失敗しました");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("通信エラーが発生しました");
     }
   };
 
@@ -246,7 +275,15 @@ function MobileDeviceDetail() {
               編集
             </button>
 
-            <button type="button" onClick={() => navigate("/mobile-devices")}>
+            <button
+             type="button"
+              onClick={handleDelete}>
+              削除
+            </button>
+
+            <button
+             type="button"
+              onClick={() => navigate("/mobile-devices")}>
               一覧へ戻る
             </button>
           </>
