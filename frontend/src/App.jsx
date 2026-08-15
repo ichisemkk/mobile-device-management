@@ -143,12 +143,16 @@ function App() {
         }
       />
 
-      {/* 移動機一覧画面：未ログインならログイン画面へ */}
+      {/* 移動機一覧画面取得：未ログインならログイン画面へ */}
       <Route
         path="/mobile-devices"
         element={
           authenticated ? (
-            <MobileDeviceList mobiles={mobiles} onLogout={handleLogout} />
+            <MobileDeviceList
+              mobiles={mobiles}
+              onLogout={handleLogout}
+              onReload={fetchMobiles}
+            />
           ) : (
             <Navigate to="/login" replace />
           )

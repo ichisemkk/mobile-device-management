@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
-function MobileDeviceList({ mobiles, onLogout, onShowDetail }) {
+function MobileDeviceList({
+     mobiles,
+     onLogout,
+     onReload }) {
   const navigate = useNavigate();
-
   const [selectedMobileId, setSelectedMobileId] = useState(null);
+
+   useEffect(() => {
+     onReload();
+   }, []);
 
   return (
     <>
