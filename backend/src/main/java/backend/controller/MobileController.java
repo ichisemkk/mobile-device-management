@@ -5,6 +5,8 @@ package backend.controller;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,7 +45,8 @@ public class MobileController {
 //登録API
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Map<String, Object> create(@RequestBody Mobile mobile) {
+    public Map<String, Object> create(
+            @Valid @RequestBody Mobile mobile) {
 
         Mobile savedMobile = mobileService.save(mobile);
 
@@ -58,7 +61,7 @@ public class MobileController {
     @PutMapping("/{id}")
     public Map<String, Object> update(
             @PathVariable Long id,
-            @RequestBody Mobile mobile) {
+            @Valid @RequestBody Mobile mobile) {
 
         Mobile updatedMobile = mobileService.update(id, mobile);
 
@@ -71,7 +74,8 @@ public class MobileController {
 
 //削除API
    @DeleteMapping("/{id}")
-   public Map<String, String> delete(@PathVariable Long id) {
+   public Map<String, String> delete(
+           @PathVariable Long id) {
 
        mobileService.delete(id);
 

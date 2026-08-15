@@ -9,57 +9,105 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "mobiles")
 public class Mobile {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "mobile_id")
-    private Long mobileId;
+// バリデーションチェック
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+@Column(name = "mobile_id")
+private Long mobileId;
 
-    @Column(name = "mobile_name", nullable = false, length = 100)
+    // 機種名：必須、最大50文字
+    @NotBlank(message = "機種名は必須です")
+    @Size(max = 50, message = "機種名は50文字以内で入力してください")
+    @Column(name = "mobile_name", nullable = false, length = 50)
     private String mobileName;
 
-    @Column(name = "mac_address", nullable = false, unique = true, length = 50)
+
+    // MACアドレス：必須、AA:BB:CC:DD:EE:FF形式
+    @NotBlank(message = "MACアドレスは必須です")
+    @Pattern(
+            regexp = "^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$",
+            message = "MACアドレスはAA:BB:CC:DD:EE:FF形式で入力してください"
+    )
+    @Column(name = "mac_address", nullable = false, unique = true, length = 17)
     private String macAddress;
 
-    @Column(name = "serial_number", nullable = false, unique = true, length = 100)
+
+    // 製造番号：必須、最大50文字
+    @NotBlank(message = "製造番号は必須です")
+    @Size(max = 50, message = "製造番号は50文字以内で入力してください")
+    @Column(name = "serial_number", nullable = false, unique = true, length = 50)
     private String serialNumber;
 
-    @Column(name = "mobile_color", nullable = false, length = 50)
+
+    // カラー：必須、最大30文字
+    @NotBlank(message = "カラーは必須です")
+    @Size(max = 30, message = "カラーは30文字以内で入力してください")
+    @Column(name = "mobile_color", nullable = false, length = 30)
     private String mobileColor;
 
-    @Column(name = "driver_version", length = 100)
+
+    // ドライババージョン：任意、最大50文字
+    @Size(max = 50, message = "ドライババージョンは50文字以内で入力してください")
+    @Column(name = "driver_version", length = 50)
     private String driverVersion;
 
-    @Column(name = "lender_return_destination", nullable = false, length = 255)
+
+    // 貸出元部署：任意、最大100文字
+    @Size(max = 100, message = "貸出元部署は100文字以内で入力してください")
+    @Column(name = "lender_return_destination", length = 100)
     private String lenderReturnDestination;
 
-    @Column(name = "lender_contact_person", length = 100)
+
+    // 貸出元担当者：任意、最大50文字
+    @Size(max = 50, message = "貸出元担当者は50文字以内で入力してください")
+    @Column(name = "lender_contact_person", length = 50)
     private String lenderContactPerson;
 
-    @Column(name = "lender_borrowed_date")
+
+    // 借りた日：必須
+    @NotNull(message = "借りた日は必須です")
+    @Column(name = "lender_borrowed_date", nullable = false)
     private LocalDate lenderBorrowedDate;
 
+
+    // 返却日：任意
     @Column(name = "lender_returned_date")
     private LocalDate lenderReturnedDate;
 
+
+    // 返却期限：任意
     @Column(name = "lender_return_due_date")
     private LocalDate lenderReturnDueDate;
 
+
+    // ステータス：必須
+    @NotBlank(message = "ステータスは必須です")
     @Column(name = "status", nullable = false, length = 50)
     private String status;
 
-    @Column(name = "remarks")
+
+    // 備考：任意、最大500文字
+    @Size(max = 500, message = "備考は500文字以内で入力してください")
+    @Column(name = "remarks", length = 500)
     private String remarks;
+
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+
 
     public Mobile() {
     }
@@ -183,4 +231,5 @@ public class Mobile {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
 }
