@@ -6,11 +6,28 @@ function MobileDeviceList({
      onLogout,
      onReload }) {
   const navigate = useNavigate();
+
   const [selectedMobileId, setSelectedMobileId] = useState(null);
+  const [searchText, setSearchText] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
 
    useEffect(() => {
      onReload();
    }, []);
+
+// 文字列検索＆ステータス絞り込み検索   
+ const filteredMobiles = mobiles.filter((mobile) => {
+  const keyword = searchText.trim().toLowerCase();
+
+  const matchesKeyword =
+    mobile.mobileName.toLowerCase().includes(keyword) ||
+    mobile.mobileColor.toLowerCase().includes(keyword);
+
+  const matchesStatus =
+    selectedStatus === "" || mobile.status === selectedStatus;
+
+  return matchesKeyword && matchesStatus;
+});
 
   return (
     <>
@@ -22,6 +39,28 @@ function MobileDeviceList({
 
       <main>
         <h2>移動機一覧</h2>
+
+        {/* 文字列検索欄 */}
+        <div>
+          <input
+            type="text"
+            value={searchText}
+            onChange={(event) => setSearchText(event.target.value)}
+            placeholder="機種名・カラーで検索"
+          />
+        </div>
+
+        {/* ステータス絞り込み検索 */}
+        <select
+          value={selectedStatus}
+          onChange={(event) => setSelectedStatus(event.target.value)}
+        >
+          <option value="">すべて</option>
+          <option value="試験中">試験中</option>
+          <option value="部内貸出中">部内貸出中</option>
+          <option value="返却済">返却済</option>
+          <option value="受領済">受領済</option>
+        </select>
 
         {/* 詳細表示ボタン */}
         <button
@@ -43,8 +82,11 @@ function MobileDeviceList({
         </p>
         {/* 動作確認用 */}
 
+        {/* DBに0件と、検索結果が0件を区別する */}
         {mobiles.length === 0 ? (
           <p>登録されている移動機はありません。</p>
+        ) : filteredMobiles.length === 0 ? (
+          <p>検索条件に一致する移動機はありません。</p>
         ) : (
           <table>
             <thead>
@@ -58,7 +100,7 @@ function MobileDeviceList({
             </thead>
 
             <tbody>
-              {mobiles.map((mobile) => (
+              {filteredMobiles.map((mobile) => (
                 <tr
                   key={mobile.mobileId}
                   onClick={() => setSelectedMobileId(mobile.mobileId)}
