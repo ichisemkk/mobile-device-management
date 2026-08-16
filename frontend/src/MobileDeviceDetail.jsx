@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import { validateMobile } from "./utils/mobileValidation";
 
 function MobileDeviceDetail() {
   const { id } = useParams();
@@ -9,12 +10,10 @@ function MobileDeviceDetail() {
   const [error, setError] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [originalMobile, setOriginalMobile] = useState(null);
+  const [errors, setErrors] = useState({});
 
-  // TODO: 詳細画面で更新後、一覧データを再取得する
-
-  //URLの id を使って移動機の詳細データを取得する処理
+  // URLのidを使って移動機の詳細データを取得
   useEffect(() => {
-    // 詳細取得処理
     const fetchMobileDetail = async () => {
       try {
         const response = await fetch(
@@ -44,8 +43,16 @@ function MobileDeviceDetail() {
     fetchMobileDetail();
   }, [id]);
 
-  //更新関数 PUT /mobile-devices/{id} を呼んでDB更新
+  // PUT /mobile-devices/{id} で移動機情報を更新
   const handleUpdate = async () => {
+    // バリデーションチェック
+    const newErrors = validateMobile(mobile);
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      return;
+    }
+
     try {
       const response = await fetch(
         `http://localhost:8080/mobile-devices/${id}`,
@@ -55,7 +62,11 @@ function MobileDeviceDetail() {
             "Content-Type": "application/json",
           },
           credentials: "include",
-          body: JSON.stringify(mobile),
+          body: JSON.stringify({
+            ...mobile,
+            lenderReturnDueDate: mobile.lenderReturnDueDate || null,
+            lenderReturnedDate: mobile.lenderReturnedDate || null,
+          }),
         },
       );
 
@@ -65,6 +76,7 @@ function MobileDeviceDetail() {
         setMobile(data.mobile);
         setOriginalMobile({ ...data.mobile });
         setIsEditing(false);
+        setErrors({});
 
         alert(data.message);
       } else {
@@ -76,7 +88,7 @@ function MobileDeviceDetail() {
     }
   };
 
-  //削除関数 PUT /mobile-devices/{id} を使ってDB更新
+  // DELETE /mobile-devices/{id} で移動機情報を削除
   const handleDelete = async () => {
     const confirmed = window.confirm("本当に削除しますか？");
 
@@ -105,7 +117,7 @@ function MobileDeviceDetail() {
     }
   };
 
-  // 読み込み中やエラー時の表示を切り替える処理;
+  // 読み込み中やエラー時の表示を切り替える
   // ① 読み込み中
   if (loading) {
     return <p>読み込み中...</p>;
@@ -137,16 +149,19 @@ function MobileDeviceDetail() {
           <label>機種名：</label>
 
           {isEditing ? (
-            <input
-              type="text"
-              value={mobile.mobileName}
-              onChange={(event) =>
-                setMobile({
-                  ...mobile,
-                  mobileName: event.target.value,
-                })
-              }
-            />
+            <>
+              <input
+                type="text"
+                value={mobile.mobileName}
+                onChange={(event) =>
+                  setMobile({
+                    ...mobile,
+                    mobileName: event.target.value,
+                  })
+                }
+              />
+              {errors.mobileName && <p>{errors.mobileName}</p>}
+            </>
           ) : (
             <span>{mobile.mobileName}</span>
           )}
@@ -155,16 +170,19 @@ function MobileDeviceDetail() {
         <div>
           <label>MACアドレス：</label>
           {isEditing ? (
-            <input
-              type="text"
-              value={mobile.macAddress}
-              onChange={(event) =>
-                setMobile({
-                  ...mobile,
-                  macAddress: event.target.value,
-                })
-              }
-            />
+            <>
+              <input
+                type="text"
+                value={mobile.macAddress}
+                onChange={(event) =>
+                  setMobile({
+                    ...mobile,
+                    macAddress: event.target.value,
+                  })
+                }
+              />
+              {errors.macAddress && <p>{errors.macAddress}</p>}
+            </>
           ) : (
             <span>{mobile.macAddress}</span>
           )}
@@ -173,16 +191,19 @@ function MobileDeviceDetail() {
         <div>
           <label>製造番号：</label>
           {isEditing ? (
-            <input
-              type="text"
-              value={mobile.serialNumber}
-              onChange={(event) =>
-                setMobile({
-                  ...mobile,
-                  serialNumber: event.target.value,
-                })
-              }
-            />
+            <>
+              <input
+                type="text"
+                value={mobile.serialNumber}
+                onChange={(event) =>
+                  setMobile({
+                    ...mobile,
+                    serialNumber: event.target.value,
+                  })
+                }
+              />
+              {errors.serialNumber && <p>{errors.serialNumber}</p>}
+            </>
           ) : (
             <span>{mobile.serialNumber}</span>
           )}
@@ -191,16 +212,19 @@ function MobileDeviceDetail() {
         <div>
           <label>カラー：</label>
           {isEditing ? (
-            <input
-              type="text"
-              value={mobile.mobileColor}
-              onChange={(event) =>
-                setMobile({
-                  ...mobile,
-                  mobileColor: event.target.value,
-                })
-              }
-            />
+            <>
+              <input
+                type="text"
+                value={mobile.mobileColor}
+                onChange={(event) =>
+                  setMobile({
+                    ...mobile,
+                    mobileColor: event.target.value,
+                  })
+                }
+              />
+              {errors.mobileColor && <p>{errors.mobileColor}</p>}
+            </>
           ) : (
             <span>{mobile.mobileColor}</span>
           )}
@@ -209,40 +233,169 @@ function MobileDeviceDetail() {
         <div>
           <label>ドライババージョン：</label>
           {isEditing ? (
-            <input
-              type="text"
-              value={mobile.driverVersion ?? ""}
-              onChange={(event) =>
-                setMobile({
-                  ...mobile,
-                  driverVersion: event.target.value,
-                })
-              }
-            />
+            <>
+              <input
+                type="text"
+                value={mobile.driverVersion ?? ""}
+                onChange={(event) =>
+                  setMobile({
+                    ...mobile,
+                    driverVersion: event.target.value,
+                  })
+                }
+              />
+              {errors.driverVersion && <p>{errors.driverVersion}</p>}
+            </>
           ) : (
             <span>{mobile.driverVersion}</span>
           )}
         </div>
 
         <div>
-          <label>ステータス：</label>
+          <label>貸出元部署：</label>
           {isEditing ? (
-            <select
-              value={mobile.status}
+            <>
+              <input
+                type="text"
+                value={mobile.lenderReturnDestination ?? ""}
+                onChange={(event) =>
+                  setMobile({
+                    ...mobile,
+                    lenderReturnDestination: event.target.value,
+                  })
+                }
+              />
+              {errors.lenderReturnDestination && (
+                <p>{errors.lenderReturnDestination}</p>
+              )}
+            </>
+          ) : (
+            <span>{mobile.lenderReturnDestination}</span>
+          )}
+        </div>
+
+        <div>
+          <label>貸出元担当者：</label>
+          {isEditing ? (
+            <>
+              <input
+                type="text"
+                value={mobile.lenderContactPerson ?? ""}
+                onChange={(event) =>
+                  setMobile({
+                    ...mobile,
+                    lenderContactPerson: event.target.value,
+                  })
+                }
+              />
+              {errors.lenderContactPerson && (
+                <p>{errors.lenderContactPerson}</p>
+              )}
+            </>
+          ) : (
+            <span>{mobile.lenderContactPerson}</span>
+          )}
+        </div>
+
+        <div>
+          <label>借りた日：</label>
+          {isEditing ? (
+            <>
+              <input
+                type="date"
+                value={mobile.lenderBorrowedDate ?? ""}
+                onChange={(event) =>
+                  setMobile({
+                    ...mobile,
+                    lenderBorrowedDate: event.target.value,
+                  })
+                }
+              />
+              {errors.lenderBorrowedDate && <p>{errors.lenderBorrowedDate}</p>}
+            </>
+          ) : (
+            <span>{mobile.lenderBorrowedDate}</span>
+          )}
+        </div>
+
+        <div>
+          <label>返却期限：</label>
+          {isEditing ? (
+            <input
+              type="date"
+              value={mobile.lenderReturnDueDate ?? ""}
               onChange={(event) =>
                 setMobile({
                   ...mobile,
-                  status: event.target.value,
+                  lenderReturnDueDate: event.target.value,
                 })
               }
-            >
-              <option value="試験中">試験中</option>
-              <option value="部内貸出中">部内貸出中</option>
-              <option value="返却済">返却済</option>
-              <option value="受領済">受領済</option>
-            </select>
+            />
+          ) : (
+            <span>{mobile.lenderReturnDueDate}</span>
+          )}
+        </div>
+
+        <div>
+          <label>返却日：</label>
+          {isEditing ? (
+            <input
+              type="date"
+              value={mobile.lenderReturnedDate ?? ""}
+              onChange={(event) =>
+                setMobile({
+                  ...mobile,
+                  lenderReturnedDate: event.target.value,
+                })
+              }
+            />
+          ) : (
+            <span>{mobile.lenderReturnedDate}</span>
+          )}
+        </div>
+
+        <div>
+          <label>ステータス：</label>
+          {isEditing ? (
+            <>
+              <select
+                value={mobile.status}
+                onChange={(event) =>
+                  setMobile({
+                    ...mobile,
+                    status: event.target.value,
+                  })
+                }
+              >
+                <option value="試験中">試験中</option>
+                <option value="部内貸出中">部内貸出中</option>
+                <option value="返却済">返却済</option>
+                <option value="受領済">受領済</option>
+              </select>
+              {errors.status && <p>{errors.status}</p>}
+            </>
           ) : (
             <span>{mobile.status}</span>
+          )}
+        </div>
+
+        <div>
+          <label>備考：</label>
+          {isEditing ? (
+            <>
+              <textarea
+                value={mobile.remarks ?? ""}
+                onChange={(event) =>
+                  setMobile({
+                    ...mobile,
+                    remarks: event.target.value,
+                  })
+                }
+              />
+              {errors.remarks && <p>{errors.remarks}</p>}
+            </>
+          ) : (
+            <span>{mobile.remarks}</span>
           )}
         </div>
 
@@ -257,6 +410,7 @@ function MobileDeviceDetail() {
               type="button"
               onClick={() => {
                 setMobile(originalMobile);
+                setErrors({});
                 setIsEditing(false);
               }}
             >
@@ -269,21 +423,18 @@ function MobileDeviceDetail() {
               type="button"
               onClick={() => {
                 setOriginalMobile({ ...mobile });
+                setErrors({});
                 setIsEditing(true);
               }}
             >
               編集
             </button>
 
-            <button
-             type="button"
-              onClick={handleDelete}>
+            <button type="button" onClick={handleDelete}>
               削除
             </button>
 
-            <button
-             type="button"
-              onClick={() => navigate("/mobile-devices")}>
+            <button type="button" onClick={() => navigate("/mobile-devices")}>
               一覧へ戻る
             </button>
           </>
