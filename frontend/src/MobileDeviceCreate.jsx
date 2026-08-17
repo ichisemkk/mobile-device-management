@@ -89,8 +89,11 @@ function MobileDeviceCreate() {
               name="mobileName"
               value={form.mobileName}
               onChange={handleChange}
+              className={errors.mobileName ? "input-error" : ""}
             />
-            {errors.mobileName && <p>{errors.mobileName}</p>}
+            {errors.mobileName && (
+              <p className="error-message">{errors.mobileName}</p>
+            )}
           </div>
 
           <div>
@@ -100,8 +103,11 @@ function MobileDeviceCreate() {
               name="macAddress"
               value={form.macAddress}
               onChange={handleChange}
+              className={errors.mobileName ? "input-error" : ""}
             />
-            {errors.macAddress && <p>{errors.macAddress}</p>}
+            {errors.macAddress && (
+              <p className="error-message">{errors.macAddress}</p>
+            )}
           </div>
 
           <div>
@@ -111,8 +117,11 @@ function MobileDeviceCreate() {
               name="serialNumber"
               value={form.serialNumber}
               onChange={handleChange}
+              className={errors.mobileName ? "input-error" : ""}
             />
-            {errors.serialNumber && <p>{errors.serialNumber}</p>}
+            {errors.serialNumber && (
+              <p className="error-message">{errors.serialNumber}</p>
+            )}
           </div>
 
           <div>
@@ -122,8 +131,11 @@ function MobileDeviceCreate() {
               name="mobileColor"
               value={form.mobileColor}
               onChange={handleChange}
+              className={errors.mobileName ? "input-error" : ""}
             />
-            {errors.mobileColor && <p>{errors.mobileColor}</p>}
+            {errors.mobileColor && (
+              <p className="error-message">{errors.mobileColor}</p>
+            )}
           </div>
 
           <div>
@@ -134,7 +146,9 @@ function MobileDeviceCreate() {
               value={form.driverVersion}
               onChange={handleChange}
             />
-            {errors.driverVersion && <p>{errors.driverVersion}</p>}
+            {errors.driverVersion && (
+              <p className="error-message">{errors.driverVersion}</p>
+            )}
           </div>
 
           <div>
@@ -146,7 +160,7 @@ function MobileDeviceCreate() {
               onChange={handleChange}
             />
             {errors.lenderReturnDestination && (
-              <p>{errors.lenderReturnDestination}</p>
+              <p className="error-message">{errors.lenderReturnDestination}</p>
             )}
           </div>
 
@@ -158,7 +172,9 @@ function MobileDeviceCreate() {
               value={form.lenderContactPerson}
               onChange={handleChange}
             />
-            {errors.lenderContactPerson && <p>{errors.lenderContactPerson}</p>}
+            {errors.lenderContactPerson && (
+              <p className="error-message">{errors.lenderContactPerson}</p>
+            )}
           </div>
 
           <div>
@@ -168,8 +184,11 @@ function MobileDeviceCreate() {
               name="lenderBorrowedDate"
               value={form.lenderBorrowedDate}
               onChange={handleChange}
+              className={errors.mobileName ? "input-error" : ""}
             />
-            {errors.lenderBorrowedDate && <p>{errors.lenderBorrowedDate}</p>}
+            {errors.lenderBorrowedDate && (
+              <p className="error-message">{errors.lenderBorrowedDate}</p>
+            )}
           </div>
 
           <div>
@@ -194,14 +213,19 @@ function MobileDeviceCreate() {
 
           <div>
             <label>ステータス</label>
-            <select name="status" value={form.status} onChange={handleChange}>
+            <select
+              name="status"
+              value={form.status}
+              onChange={handleChange}
+              className={errors.mobileName ? "input-error" : ""}
+            >
               <option value="">選択してください</option>
               <option value="試験中">試験中</option>
               <option value="部内貸出中">部内貸出中</option>
               <option value="返却済">返却済</option>
               <option value="受領済">受領済</option>
             </select>
-            {errors.status && <p>{errors.status}</p>}
+            {errors.status && <p className="error-message">{errors.status}</p>}
           </div>
 
           <div>
@@ -211,7 +235,9 @@ function MobileDeviceCreate() {
               value={form.remarks}
               onChange={handleChange}
             />
-            {errors.remarks && <p>{errors.remarks}</p>}
+            {errors.remarks && (
+              <p className="error-message">{errors.remarks}</p>
+            )}
           </div>
 
           <button type="submit">登録</button>
@@ -221,7 +247,7 @@ function MobileDeviceCreate() {
           </button>
         </form>
 
-        {message && <p>{message}</p>}
+        {message && <p className="error-message">{message}</p>}
       </main>
     </>
   );

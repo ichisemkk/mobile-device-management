@@ -160,7 +160,9 @@ function MobileDeviceDetail() {
                   })
                 }
               />
-              {errors.mobileName && <p>{errors.mobileName}</p>}
+              {errors.mobileName && (
+                <p className="error-message">{errors.mobileName}</p>
+              )}
             </>
           ) : (
             <span>{mobile.mobileName}</span>
@@ -181,7 +183,9 @@ function MobileDeviceDetail() {
                   })
                 }
               />
-              {errors.macAddress && <p>{errors.macAddress}</p>}
+              {errors.macAddress && (
+                <p className="error-message">{errors.macAddress}</p>
+              )}
             </>
           ) : (
             <span>{mobile.macAddress}</span>
@@ -202,7 +206,9 @@ function MobileDeviceDetail() {
                   })
                 }
               />
-              {errors.serialNumber && <p>{errors.serialNumber}</p>}
+              {errors.serialNumber && (
+                <p className="error-message">{errors.serialNumber}</p>
+              )}
             </>
           ) : (
             <span>{mobile.serialNumber}</span>
@@ -223,7 +229,9 @@ function MobileDeviceDetail() {
                   })
                 }
               />
-              {errors.mobileColor && <p>{errors.mobileColor}</p>}
+              {errors.mobileColor && (
+                <p className="error-message">{errors.mobileColor}</p>
+              )}
             </>
           ) : (
             <span>{mobile.mobileColor}</span>
@@ -244,7 +252,9 @@ function MobileDeviceDetail() {
                   })
                 }
               />
-              {errors.driverVersion && <p>{errors.driverVersion}</p>}
+              {errors.driverVersion && (
+                <p className="error-message">{errors.driverVersion}</p>
+              )}
             </>
           ) : (
             <span>{mobile.driverVersion}</span>
@@ -266,7 +276,9 @@ function MobileDeviceDetail() {
                 }
               />
               {errors.lenderReturnDestination && (
-                <p>{errors.lenderReturnDestination}</p>
+                <p className="error-message">
+                  {errors.lenderReturnDestination}
+                </p>
               )}
             </>
           ) : (
@@ -289,7 +301,7 @@ function MobileDeviceDetail() {
                 }
               />
               {errors.lenderContactPerson && (
-                <p>{errors.lenderContactPerson}</p>
+                <p className="error-message">{errors.lenderContactPerson}</p>
               )}
             </>
           ) : (
@@ -311,7 +323,11 @@ function MobileDeviceDetail() {
                   })
                 }
               />
-              {errors.lenderBorrowedDate && <p>{errors.lenderBorrowedDate}</p>}
+              {errors.lenderBorrowedDate && (
+                <p className="error-message">
+                   {errors.lenderBorrowedDate}
+                </p>
+              )}
             </>
           ) : (
             <span>{mobile.lenderBorrowedDate}</span>
@@ -372,7 +388,11 @@ function MobileDeviceDetail() {
                 <option value="返却済">返却済</option>
                 <option value="受領済">受領済</option>
               </select>
-              {errors.status && <p>{errors.status}</p>}
+              {errors.status &&(
+                <p className="error-message">
+                   {errors.status}
+                </p>
+              )}
             </>
           ) : (
             <span>{mobile.status}</span>
@@ -392,7 +412,11 @@ function MobileDeviceDetail() {
                   })
                 }
               />
-              {errors.remarks && <p>{errors.remarks}</p>}
+              {errors.remarks &&(
+                <p className="error-message">
+                  {errors.remarks}
+                </p>
+              )}
             </>
           ) : (
             <span>{mobile.remarks}</span>
