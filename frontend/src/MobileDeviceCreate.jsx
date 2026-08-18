@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { validateMobile } from "./utils/mobileValidation";
+import MobileForm from "./components/MobileForm";
 
 function MobileDeviceCreate() {
   const navigate = useNavigate();
@@ -23,16 +24,7 @@ function MobileDeviceCreate() {
   const [message, setMessage] = useState("");
   const [errors, setErrors] = useState({});
 
-  // 入力値をformに反映
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-
-    setForm({
-      ...form,
-      [name]: value,
-    });
-  };
-
+ 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setMessage("");
@@ -82,167 +74,18 @@ function MobileDeviceCreate() {
 
         {/* 入力欄 */}
         <form onSubmit={handleSubmit}>
-          <div>
-            <label>機種名</label>
-            <input
-              type="text"
-              name="mobileName"
-              value={form.mobileName}
-              onChange={handleChange}
-              className={errors.mobileName ? "input-error" : ""}
-            />
-            {errors.mobileName && (
-              <p className="error-message">{errors.mobileName}</p>
-            )}
-          </div>
-
-          <div>
-            <label>MACアドレス</label>
-            <input
-              type="text"
-              name="macAddress"
-              value={form.macAddress}
-              onChange={handleChange}
-              className={errors.mobileName ? "input-error" : ""}
-            />
-            {errors.macAddress && (
-              <p className="error-message">{errors.macAddress}</p>
-            )}
-          </div>
-
-          <div>
-            <label>製造番号</label>
-            <input
-              type="text"
-              name="serialNumber"
-              value={form.serialNumber}
-              onChange={handleChange}
-              className={errors.mobileName ? "input-error" : ""}
-            />
-            {errors.serialNumber && (
-              <p className="error-message">{errors.serialNumber}</p>
-            )}
-          </div>
-
-          <div>
-            <label>カラー</label>
-            <input
-              type="text"
-              name="mobileColor"
-              value={form.mobileColor}
-              onChange={handleChange}
-              className={errors.mobileName ? "input-error" : ""}
-            />
-            {errors.mobileColor && (
-              <p className="error-message">{errors.mobileColor}</p>
-            )}
-          </div>
-
-          <div>
-            <label>ドライババージョン</label>
-            <input
-              type="text"
-              name="driverVersion"
-              value={form.driverVersion}
-              onChange={handleChange}
-            />
-            {errors.driverVersion && (
-              <p className="error-message">{errors.driverVersion}</p>
-            )}
-          </div>
-
-          <div>
-            <label>貸出元部署</label>
-            <input
-              type="text"
-              name="lenderReturnDestination"
-              value={form.lenderReturnDestination}
-              onChange={handleChange}
-            />
-            {errors.lenderReturnDestination && (
-              <p className="error-message">{errors.lenderReturnDestination}</p>
-            )}
-          </div>
-
-          <div>
-            <label>貸出元担当者</label>
-            <input
-              type="text"
-              name="lenderContactPerson"
-              value={form.lenderContactPerson}
-              onChange={handleChange}
-            />
-            {errors.lenderContactPerson && (
-              <p className="error-message">{errors.lenderContactPerson}</p>
-            )}
-          </div>
-
-          <div>
-            <label>借りた日</label>
-            <input
-              type="date"
-              name="lenderBorrowedDate"
-              value={form.lenderBorrowedDate}
-              onChange={handleChange}
-              className={errors.mobileName ? "input-error" : ""}
-            />
-            {errors.lenderBorrowedDate && (
-              <p className="error-message">{errors.lenderBorrowedDate}</p>
-            )}
-          </div>
-
-          <div>
-            <label>返却期限</label>
-            <input
-              type="date"
-              name="lenderReturnDueDate"
-              value={form.lenderReturnDueDate}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div>
-            <label>返却日</label>
-            <input
-              type="date"
-              name="lenderReturnedDate"
-              value={form.lenderReturnedDate}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div>
-            <label>ステータス</label>
-            <select
-              name="status"
-              value={form.status}
-              onChange={handleChange}
-              className={errors.mobileName ? "input-error" : ""}
-            >
-              <option value="">選択してください</option>
-              <option value="試験中">試験中</option>
-              <option value="部内貸出中">部内貸出中</option>
-              <option value="返却済">返却済</option>
-              <option value="受領済">受領済</option>
-            </select>
-            {errors.status && <p className="error-message">{errors.status}</p>}
-          </div>
-
-          <div>
-            <label>備考</label>
-            <textarea
-              name="remarks"
-              value={form.remarks}
-              onChange={handleChange}
-            />
-            {errors.remarks && (
-              <p className="error-message">{errors.remarks}</p>
-            )}
-          </div>
+          <MobileForm
+            mobile={form}
+            setMobile={setForm}
+            errors={errors}
+          />
 
           <button type="submit">登録</button>
 
-          <button type="button" onClick={() => navigate("/mobile-devices")}>
+          <button
+            type="button"
+            onClick={() => navigate("/mobile-devices")}
+          >
             一覧へ戻る
           </button>
         </form>

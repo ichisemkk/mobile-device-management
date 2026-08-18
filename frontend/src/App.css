@@ -1,14 +1,3 @@
-.error-message {
-  color: red;
-  font-size: 14px;
-  font-weight: bold;
-  margin: 4px 0 0;
-}
-
-.input-error {
-  border: 1px solid red;
-}
-
 /* 一覧画面 */
 .header-title {
   display: flex;
@@ -126,3 +115,22 @@
   width: 14%;
 }
 /* 一覧画面ここまで */
+
+
+/* 詳細編集、登録画面 */
+.form-group {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 5px;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 4px 0 0;
+}
+
+.input-error {
+  border: 1px solid red;
+}
