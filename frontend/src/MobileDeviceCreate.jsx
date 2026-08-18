@@ -65,27 +65,21 @@ function MobileDeviceCreate() {
 
   return (
     <>
-      <header>
-        <h1>移動機管理アプリ</h1>
+      <header className="app-header">
+        <div className="header-title">
+          <h1>移動機管理アプリ</h1>
+          <span className="page-title">＞新規登録</span>
+        </div>
       </header>
 
       <main>
-        <h2>移動機新規登録</h2>
-
         {/* 入力欄 */}
         <form onSubmit={handleSubmit}>
-          <MobileForm
-            mobile={form}
-            setMobile={setForm}
-            errors={errors}
-          />
+          <MobileForm mobile={form} setMobile={setForm} errors={errors} />
 
           <button type="submit">登録</button>
 
-          <button
-            type="button"
-            onClick={() => navigate("/mobile-devices")}
-          >
+          <button type="button" onClick={() => navigate("/mobile-devices")}>
             一覧へ戻る
           </button>
         </form>

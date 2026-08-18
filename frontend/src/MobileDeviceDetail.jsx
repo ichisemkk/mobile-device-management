@@ -137,14 +137,17 @@ function MobileDeviceDetail() {
   // ③ 正常取得できたら詳細画面
   return (
     <>
-      <header>
-        <h1>移動機管理アプリ</h1>
+      <header className="app-header">
+        <div className="header-title">
+          <h1>移動機管理アプリ</h1>
+          <span className="page-title">＞詳細・編集</span>
+        </div>
       </header>
 
       <main>
-        <h2>移動機詳細</h2>
-
-        <p>ID：{mobile.mobileId}</p>
+        <p className="mobile-id">
+          ID：{mobile.mobileId}
+        </p>
 
         <MobileForm
           mobile={mobile}
