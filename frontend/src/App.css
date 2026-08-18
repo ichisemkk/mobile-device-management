@@ -1,7 +1,3 @@
-.selected-row {
-  background-color: #dbeafe;
-}
-
 .error-message {
   color: red;
   font-size: 14px;
@@ -12,3 +8,121 @@
 .input-error {
   border: 1px solid red;
 }
+
+/* 一覧画面 */
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app-header h1 {
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 30px;
+  color:#596b82;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin:15px 0 0 15px;
+}
+
+.page-title {
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  margin:23px 0 0 0;
+  color:#596b82;
+}
+
+.list-toolbar {
+  display: flex;
+  justify-content:space-between;
+  /* align-items: center; */
+  margin-bottom: 20px;
+  margin-top:30px;
+}
+
+.search-area {
+  display: flex;
+  gap: 10px;
+}
+
+.search-area input {
+  width: 250px;
+  padding: 8px;
+}
+
+.search-area select {
+  padding: 8px;
+}
+
+.list-buttons {
+  display: flex;
+  justify-content: right;
+  gap: 12px;
+}
+
+.mobile-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.mobile-table th,
+.mobile-table td {
+  font-size: 16px;
+  border: 1px solid #ccc;
+  padding: 0px 15px;
+  text-align: center;
+}
+
+.mobile-table th {
+  background-color: #cbe1fd;
+}
+
+.mobile-table tbody tr {
+  cursor: pointer;
+}
+
+.mobile-table tbody tr:hover {
+  background-color: #fcfbfb;
+}
+
+.mobile-table tbody tr.selected-row:hover {
+  background-color: #ebf1fc;
+}
+
+.selected-row {
+  background-color: #ebf1fc;
+}
+
+/* 一覧表示の列幅 */
+.col-id {
+  width: 6%;
+}
+
+.col-name {
+  width: 18%;
+}
+
+.col-serial {
+  width: 15%;
+}
+
+.col-color {
+  width: 17%;
+}
+
+.col-date {
+  width: 13%;
+}
+
+.col-status {
+  width: 14%;
+}
+/* 一覧画面ここまで */
