@@ -146,7 +146,7 @@ function MobileDeviceDetail() {
 
       <main>
         <p className="mobile-id">
-          ID：{mobile.mobileId}
+          ID：{String(mobile.mobileId).padStart(5, "0")}
         </p>
 
         <MobileForm
@@ -156,46 +156,48 @@ function MobileDeviceDetail() {
           readOnly={!isEditing}
         />
 
-        {isEditing ? (
-          <>
-            <button type="button" onClick={handleUpdate}>
-              更新
-            </button>
+        <div className="form-buttons">
+          {isEditing ? (
+            <>
+              <button type="button" onClick={handleUpdate}>
+                更新
+              </button>
 
-            {/* 編集前の値に戻して、編集モードを終了する */}
-            <button
-              type="button"
-              onClick={() => {
-                setMobile(originalMobile);
-                setErrors({});
-                setIsEditing(false);
-              }}
-            >
-              キャンセル
-            </button>
-          </>
-        ) : (
-          <>
-            <button
-              type="button"
-              onClick={() => {
-                setOriginalMobile({ ...mobile });
-                setErrors({});
-                setIsEditing(true);
-              }}
-            >
-              編集
-            </button>
+              {/* 編集前の値に戻して、編集モードを終了する */}
+              <button
+                type="button"
+                onClick={() => {
+                  setMobile(originalMobile);
+                  setErrors({});
+                  setIsEditing(false);
+                }}
+              >
+                キャンセル
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                type="button"
+                onClick={() => {
+                  setOriginalMobile({ ...mobile });
+                  setErrors({});
+                  setIsEditing(true);
+                }}
+              >
+                編集
+              </button>
 
-            <button type="button" onClick={handleDelete}>
-              削除
-            </button>
+              <button type="button" onClick={handleDelete}>
+                削除
+              </button>
 
-            <button type="button" onClick={() => navigate("/mobile-devices")}>
-              一覧へ戻る
-            </button>
-          </>
-        )}
+              <button type="button" onClick={() => navigate("/mobile-devices")}>
+                一覧へ戻る
+              </button>
+            </>
+          )}
+        </div>
       </main>
     </>
   );

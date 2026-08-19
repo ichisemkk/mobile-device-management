@@ -7,35 +7,39 @@ function Login({
   handleLogin,
 }) {
   return (
-    <>
-      <h1>移動機管理アプリ</h1>
+    <main className="login-page">
+      <div className="login-box">
+        <h1>移動機管理アプリ</h1>
 
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>ログインID</label>
+        <form onSubmit={handleLogin}>
+          <div className="login-form-group">
+            <label>ログインID</label>
 
-          <input
-            type="text"
-            value={loginId}
-            onChange={(event) => setLoginId(event.target.value)}
-          />
-        </div>
+            <input
+              type="text"
+              value={loginId}
+              onChange={(event) => setLoginId(event.target.value)}
+            />
+          </div>
 
-        <div>
-          <label>パスワード</label>
+          <div className="login-form-group">
+            <label>パスワード</label>
 
-          <input
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </div>
+            <input
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </div>
 
-        <button type="submit">ログイン</button>
-      </form>
+          <button type="submit" className="login-button">
+            ログイン
+          </button>
+        </form>
 
-      <p>{message}</p>
-    </>
+        {message && <p className="login-message">{message}</p>}
+      </div>
+    </main>
   );
 }
 

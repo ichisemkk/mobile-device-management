@@ -53,9 +53,10 @@ function MobileDeviceCreate() {
       });
 
       if (response.ok) {
+        alert("登録しました。");
         navigate("/mobile-devices");
       } else {
-        setMessage("移動機の登録に失敗しました。");
+        setMessage("登録に失敗しました。");
       }
     } catch (error) {
       console.error(error);
@@ -77,11 +78,13 @@ function MobileDeviceCreate() {
         <form onSubmit={handleSubmit}>
           <MobileForm mobile={form} setMobile={setForm} errors={errors} />
 
-          <button type="submit">登録</button>
+          <div className="form-buttons">
+            <button type="submit">登録</button>
 
-          <button type="button" onClick={() => navigate("/mobile-devices")}>
-            一覧へ戻る
-          </button>
+            <button type="button" onClick={() => navigate("/mobile-devices")}>
+              一覧へ戻る
+            </button>
+          </div>
         </form>
 
         {message && <p className="error-message">{message}</p>}

@@ -57,11 +57,10 @@ function App() {
         }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-
-        setMessage(data.message);
+      if (response.ok) {        
+        setMessage("");
         setAuthenticated(true);
+        setPassword("");
 
         await fetchMobiles();
 

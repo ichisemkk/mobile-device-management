@@ -113,7 +113,7 @@ function MobileDeviceList({
                   selectedMobileId === mobile.mobileId ? "selected-row" : ""
                 }
               >
-                <td>{mobile.mobileId}</td>
+                <td>{String(mobile.mobileId).padStart(5, "0")}</td>
                 <td>{mobile.mobileName}</td>
                 <td>{mobile.serialNumber}</td>
                 <td>{mobile.mobileColor}</td>
