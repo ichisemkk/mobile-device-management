@@ -83,6 +83,9 @@ function App() {
       });
 
       if (response.ok) {
+        sessionStorage.removeItem("mobileSearchText");
+        sessionStorage.removeItem("mobileSelectedStatus");
+        
         setAuthenticated(false);
         setMobiles([]);
         setLoginId("");

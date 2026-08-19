@@ -1,33 +1,43 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
-function MobileDeviceList({
-     mobiles,
-     onLogout,
-     onReload }) {
+function MobileDeviceList({ mobiles, onLogout, onReload }) {
   const navigate = useNavigate();
 
   const [selectedMobileId, setSelectedMobileId] = useState(null);
-  const [searchText, setSearchText] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState("");
 
-   useEffect(() => {
-     onReload();
-   }, []);
+  // sessionStorage に保存されている検索条件を初期値として読み込む
+  const [searchText, setSearchText] = useState(
+    sessionStorage.getItem("mobileSearchText") ?? "",
+  );
 
-// 文字列検索＆ステータス絞り込み検索   
- const filteredMobiles = mobiles.filter((mobile) => {
-  const keyword = searchText.trim().toLowerCase();
+  const [selectedStatus, setSelectedStatus] = useState(
+    sessionStorage.getItem("mobileSelectedStatus") ?? "",
+  );
 
-  const matchesKeyword =
-    mobile.mobileName.toLowerCase().includes(keyword) ||
-    mobile.mobileColor.toLowerCase().includes(keyword);
+  useEffect(() => {
+    onReload();
+  }, []);
 
-  const matchesStatus =
-    selectedStatus === "" || mobile.status === selectedStatus;
+  // 検索条件が変わるたびに sessionStorage に保存
+  useEffect(() => {
+    sessionStorage.setItem("mobileSearchText", searchText);
+    sessionStorage.setItem("mobileSelectedStatus", selectedStatus);
+  }, [searchText, selectedStatus]);
 
-  return matchesKeyword && matchesStatus;
-});
+  // 文字列検索＆ステータス絞り込み検索
+  const filteredMobiles = mobiles.filter((mobile) => {
+    const keyword = searchText.trim().toLowerCase();
+
+    const matchesKeyword =
+      mobile.mobileName.toLowerCase().includes(keyword) ||
+      mobile.mobileColor.toLowerCase().includes(keyword);
+
+    const matchesStatus =
+      selectedStatus === "" || mobile.status === selectedStatus;
+
+    return matchesKeyword && matchesStatus;
+  });
 
   return (
     <>
@@ -68,7 +78,7 @@ function MobileDeviceList({
             <option value="受領済">受領済</option>
           </select>
         </div>
-        
+
         <div className="list-buttons">
           {/* 新規登録ボタン */}
           <button onClick={() => navigate("/mobile-devices/new")}>
