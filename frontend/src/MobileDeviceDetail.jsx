@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { validateMobile } from "./utils/mobileValidation";
+import { normalizeMobile } from "./utils/mobileNormalize";
 import MobileForm from "./components/MobileForm";
 
 function MobileDeviceDetail() {
@@ -46,8 +47,10 @@ function MobileDeviceDetail() {
 
   // PUT /mobile-devices/{id} で移動機情報を更新
   const handleUpdate = async () => {
-    // バリデーションチェック
-    const newErrors = validateMobile(mobile);
+    // バリデーションチェック・正規化
+    const normalizedMobile = normalizeMobile(mobile);
+    const newErrors = validateMobile(normalizedMobile);
+
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length > 0) {
@@ -64,9 +67,11 @@ function MobileDeviceDetail() {
           },
           credentials: "include",
           body: JSON.stringify({
-            ...mobile,
-            lenderReturnDueDate: mobile.lenderReturnDueDate || null,
-            lenderReturnedDate: mobile.lenderReturnedDate || null,
+            ...normalizedMobile,
+            lenderReturnDueDate:
+             normalizedMobile.lenderReturnDueDate || null,
+            lenderReturnedDate:
+             normalizedMobile.lenderReturnedDate || null,
           }),
         },
       );

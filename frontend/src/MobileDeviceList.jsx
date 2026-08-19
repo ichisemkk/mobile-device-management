@@ -15,6 +15,9 @@ function MobileDeviceList({ mobiles, onLogout, onReload }) {
     sessionStorage.getItem("mobileSelectedStatus") ?? "",
   );
 
+  const normalizeSearchText = (text) =>
+    (text ?? "").normalize("NFKC").trim().toLowerCase();
+
   useEffect(() => {
     onReload();
   }, []);
@@ -27,11 +30,11 @@ function MobileDeviceList({ mobiles, onLogout, onReload }) {
 
   // 文字列検索＆ステータス絞り込み検索
   const filteredMobiles = mobiles.filter((mobile) => {
-    const keyword = searchText.trim().toLowerCase();
+    const keyword = normalizeSearchText(searchText);
 
     const matchesKeyword =
-      mobile.mobileName.toLowerCase().includes(keyword) ||
-      mobile.mobileColor.toLowerCase().includes(keyword);
+      normalizeSearchText(mobile.mobileName).includes(keyword) ||
+      normalizeSearchText(mobile.mobileColor).includes(keyword);
 
     const matchesStatus =
       selectedStatus === "" || mobile.status === selectedStatus;

@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { validateMobile } from "./utils/mobileValidation";
+import { normalizeMobile } from "./utils/mobileNormalize";
 import MobileForm from "./components/MobileForm";
+
 
 function MobileDeviceCreate() {
   const navigate = useNavigate();
@@ -29,8 +31,11 @@ function MobileDeviceCreate() {
     event.preventDefault();
     setMessage("");
 
-    // バリデーションチェック
-    const newErrors = validateMobile(form);
+    // ① 入力値を正規化
+    const normalizedMobile = normalizeMobile(form);
+
+    // ② 正規化後の値でバリデーション
+    const newErrors = validateMobile(normalizedMobile);
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length > 0) {
@@ -46,9 +51,9 @@ function MobileDeviceCreate() {
         },
         credentials: "include",
         body: JSON.stringify({
-          ...form,
-          lenderReturnDueDate: form.lenderReturnDueDate || null,
-          lenderReturnedDate: form.lenderReturnedDate || null,
+          ...normalizedMobile,
+          lenderReturnDueDate: normalizedMobile.lenderReturnDueDate || null,
+          lenderReturnedDate: normalizedMobile.lenderReturnedDate || null,
         }),
       });
 
@@ -62,7 +67,7 @@ function MobileDeviceCreate() {
       console.error(error);
       setMessage("通信エラーが発生しました。");
     }
-  };
+  };;;
 
   return (
     <>
