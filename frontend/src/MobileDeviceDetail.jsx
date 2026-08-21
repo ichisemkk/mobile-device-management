@@ -13,6 +13,7 @@ function MobileDeviceDetail() {
   const [isEditing, setIsEditing] = useState(false);
   const [originalMobile, setOriginalMobile] = useState(null);
   const [errors, setErrors] = useState({});
+  const [message, setMessage] = useState("");
 
   // URLのidを使って移動機の詳細データを取得
   useEffect(() => {
@@ -84,10 +85,12 @@ function MobileDeviceDetail() {
         setIsEditing(false);
         setErrors({});
 
-        alert(data.message);
+        alert("更新しました。");
       } else {
-        setError("移動機情報の更新に失敗しました。");
+        const data = await response.json();
+        setMessage(data.message ?? "更新に失敗しました。");
       }
+      
     } catch (error) {
       console.error(error);
       setError("通信エラーが発生しました。");
@@ -174,6 +177,7 @@ function MobileDeviceDetail() {
                 onClick={() => {
                   setMobile(originalMobile);
                   setErrors({});
+                  setMessage("");
                   setIsEditing(false);
                 }}
               >
@@ -187,6 +191,7 @@ function MobileDeviceDetail() {
                 onClick={() => {
                   setOriginalMobile({ ...mobile });
                   setErrors({});
+                  setMessage("");
                   setIsEditing(true);
                 }}
               >
@@ -203,6 +208,7 @@ function MobileDeviceDetail() {
             </>
           )}
         </div>
+        {message && <p className="form-error-message">{message}</p>}
       </main>
     </>
   );

@@ -61,13 +61,14 @@ function MobileDeviceCreate() {
         alert("登録しました。");
         navigate("/mobile-devices");
       } else {
-        setMessage("登録に失敗しました。");
+        const data = await response.json();
+        setMessage(data.message ?? "登録に失敗しました。");
       }
     } catch (error) {
       console.error(error);
       setMessage("通信エラーが発生しました。");
     }
-  };;;
+  };
 
   return (
     <>
@@ -90,9 +91,8 @@ function MobileDeviceCreate() {
               一覧へ戻る
             </button>
           </div>
+          {message && <p className="form-error-message">{message}</p>}
         </form>
-
-        {message && <p className="error-message">{message}</p>}
       </main>
     </>
   );

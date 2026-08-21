@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.http.ResponseEntity;
 
 import backend.entity.Mobile;
 import backend.service.MobileService;
@@ -43,34 +44,61 @@ public class MobileController {
     }
 
 //登録API
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Map<String, Object> create(
-            @Valid @RequestBody Mobile mobile) {
+@PostMapping
+public ResponseEntity<Map<String, Object>> create(
+        @Valid @RequestBody Mobile mobile) {
 
-        Mobile savedMobile = mobileService.save(mobile);
+    try {
+        Mobile savedMobile = mobileService.create(mobile);
 
-        return Map.of(
-                "result", "success",
-                "message", "登録しました",
-                "mobile", savedMobile
-        );
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(Map.of(
+                        "result", "success",
+                        "message", "登録しました",
+                        "mobile", savedMobile
+                ));
+
+    } catch (IllegalArgumentException e) {
+
+        return ResponseEntity
+                .badRequest()
+                .body(Map.of(
+                        "result", "error",
+                        "message", e.getMessage()
+                ));
     }
+}
 
-//更新API
-    @PutMapping("/{id}")
-    public Map<String, Object> update(
-            @PathVariable Long id,
-            @Valid @RequestBody Mobile mobile) {
+// 更新API
+@PutMapping("/{id}")
+public ResponseEntity<Map<String, Object>> update(
+        @PathVariable Long id,
+        @Valid @RequestBody Mobile mobile) {
 
+    try {
         Mobile updatedMobile = mobileService.update(id, mobile);
 
-        return Map.of(
-                "result", "success",
-                "message", "更新しました",
-                "mobile", updatedMobile
+        return ResponseEntity.ok(
+                Map.of(
+                        "result", "success",
+                        "message", "更新しました",
+                        "mobile", updatedMobile
+                )
         );
+
+    } catch (IllegalArgumentException e) {
+
+        return ResponseEntity
+                .badRequest()
+                .body(
+                        Map.of(
+                                "result", "error",
+                                "message", e.getMessage()
+                        )
+                );
     }
+}
 
 //削除API
    @DeleteMapping("/{id}")

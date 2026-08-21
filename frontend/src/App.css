@@ -249,6 +249,15 @@ header button :active {
 
 
 /* 詳細編集、登録画面 */
+.form-error-message {
+  max-width: 1050px;
+  margin: 10px auto 0;
+  color: red;
+  font-size: 14px;
+  text-align: right;
+  padding-right: 10px;
+}
+
 .error-message {
   color: red;
   font-size: 14px;
@@ -265,7 +274,7 @@ header button :active {
   grid-template-columns: 1fr 1fr;
   gap: 60px;
   max-width: 1050px;
-  margin: 15px auto 40px auto;
+  margin: 15px auto 0 auto;
   align-items: start;
 }
 
@@ -326,7 +335,7 @@ header button :active {
   justify-content: flex-end;
   gap: 12px;
   max-width: 1050px;
-  margin: 20px auto 0;
+  margin: 0 auto 0;
 }
 
 .form-buttons button {
