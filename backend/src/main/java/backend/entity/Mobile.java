@@ -18,11 +18,12 @@ import jakarta.validation.constraints.Pattern;
 @Table(name = "mobiles")
 public class Mobile {
 
-// バリデーションチェック
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-@Column(name = "mobile_id")
-private Long mobileId;
+    // バリデーションチェック
+    // ID
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "mobile_id")
+    private Long mobileId;
 
     // 機種名：必須、最大50文字
     @NotBlank(message = "機種名は必須です")
@@ -91,6 +92,7 @@ private Long mobileId;
 
     // ステータス：必須
     @NotBlank(message = "ステータスは必須です")
+    @Size(max = 50, message = "ステータスは50文字以内で入力してください")
     @Column(name = "status", nullable = false, length = 50)
     private String status;
 

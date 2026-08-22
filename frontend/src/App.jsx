@@ -26,7 +26,6 @@ function App() {
 
         if (response.ok) {
           setAuthenticated(true);
-          await fetchMobiles();
         } else {
           setAuthenticated(false);
         }
@@ -62,8 +61,6 @@ function App() {
         setAuthenticated(true);
         setPassword("");
 
-        await fetchMobiles();
-
         navigate("/mobile-devices");
       } else {
         setMessage("ログインIDまたはパスワードが正しくありません");
@@ -85,22 +82,20 @@ function App() {
       if (response.ok) {
         sessionStorage.removeItem("mobileSearchText");
         sessionStorage.removeItem("mobileSelectedStatus");
-        
+
         setAuthenticated(false);
         setMobiles([]);
         setLoginId("");
         setPassword("");
         setMessage("");
         navigate("/login");
-      } else {
-        console.log("ログアウトに失敗しました");
       }
     } catch (error) {
       console.error(error);
     }
   };
 
-  //  移動機一覧取得
+  // 一覧取得
   const fetchMobiles = async () => {
     try {
       const response = await fetch("http://localhost:8080/mobile-devices", {
@@ -111,10 +106,6 @@ function App() {
       if (response.ok) {
         const data = await response.json();
         setMobiles(data);
-
-        console.log("移動機一覧:", data);
-      } else {
-        console.log("移動機一覧の取得に失敗しました");
       }
     } catch (error) {
       console.error(error);
@@ -134,14 +125,18 @@ function App() {
       <Route
         path="/login"
         element={
-          <Login
-            loginId={loginId}
-            password={password}
-            message={message}
-            setLoginId={setLoginId}
-            setPassword={setPassword}
-            handleLogin={handleLogin}
-          />
+          authenticated ? (
+            <Navigate to="/mobile-devices" replace />
+          ) : (
+            <Login
+              loginId={loginId}
+              password={password}
+              message={message}
+              setLoginId={setLoginId}
+              setPassword={setPassword}
+              handleLogin={handleLogin}
+           />
+          )
         }
       />
 

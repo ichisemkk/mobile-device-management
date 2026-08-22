@@ -48,6 +48,7 @@ function MobileDeviceDetail() {
 
   // PUT /mobile-devices/{id} で移動機情報を更新
   const handleUpdate = async () => {
+    setMessage("");
     // バリデーションチェック・正規化
     const normalizedMobile = normalizeMobile(mobile);
     const newErrors = validateMobile(normalizedMobile);
@@ -93,7 +94,7 @@ function MobileDeviceDetail() {
       
     } catch (error) {
       console.error(error);
-      setError("通信エラーが発生しました。");
+      setMessage("通信エラーが発生しました。");
     }
   };
 

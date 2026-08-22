@@ -1,5 +1,3 @@
-// まずは一覧取得APIだけ作る最小構成
-
 package backend.controller;
 
 import java.util.List;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.http.ResponseEntity;
@@ -37,19 +34,19 @@ public class MobileController {
         return mobileService.findAll();
     }
 
-// IDで1件取得する処理
+    // IDで1件取得
     @GetMapping("/{id}")
     public Mobile findById(@PathVariable Long id) {
         return mobileService.findById(id);
     }
 
-//登録API
-@PostMapping
-public ResponseEntity<Map<String, Object>> create(
+    // 登録
+    @PostMapping
+    public ResponseEntity<Map<String, Object>> create(
         @Valid @RequestBody Mobile mobile) {
 
-    try {
-        Mobile savedMobile = mobileService.create(mobile);
+        try {
+            Mobile savedMobile = mobileService.create(mobile);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -59,7 +56,7 @@ public ResponseEntity<Map<String, Object>> create(
                         "mobile", savedMobile
                 ));
 
-    } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
 
         return ResponseEntity
                 .badRequest()
@@ -67,17 +64,17 @@ public ResponseEntity<Map<String, Object>> create(
                         "result", "error",
                         "message", e.getMessage()
                 ));
+        }
     }
-}
 
-// 更新API
-@PutMapping("/{id}")
-public ResponseEntity<Map<String, Object>> update(
+    // 更新
+    @PutMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> update(
         @PathVariable Long id,
         @Valid @RequestBody Mobile mobile) {
 
-    try {
-        Mobile updatedMobile = mobileService.update(id, mobile);
+        try {
+            Mobile updatedMobile = mobileService.update(id, mobile);
 
         return ResponseEntity.ok(
                 Map.of(
@@ -87,7 +84,7 @@ public ResponseEntity<Map<String, Object>> update(
                 )
         );
 
-    } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
 
         return ResponseEntity
                 .badRequest()
@@ -97,13 +94,13 @@ public ResponseEntity<Map<String, Object>> update(
                                 "message", e.getMessage()
                         )
                 );
+        }
     }
-}
 
-//削除API
-   @DeleteMapping("/{id}")
-   public Map<String, String> delete(
-           @PathVariable Long id) {
+    // 削除
+    @DeleteMapping("/{id}")
+    public Map<String, String> delete(
+        @PathVariable Long id) {
 
        mobileService.delete(id);
 
@@ -111,7 +108,5 @@ public ResponseEntity<Map<String, Object>> update(
                "result", "success",
                "message", "削除しました"
        );
-}
-
-
+    }
 }

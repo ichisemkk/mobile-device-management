@@ -78,7 +78,8 @@ public class SecurityConfig {
         return configuration.getAuthenticationManager();
     }
 
-//CORS設定を追加(Spring Boot側でReactからの通信を許可する)
+// CORS設定
+// React（http://localhost:5173）からSpring Bootへの通信を許可する
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
 

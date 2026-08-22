@@ -1,4 +1,10 @@
-function MobileForm({ mobile, setMobile, errors, readOnly = false }) {
+function MobileForm({
+  mobile,
+  setMobile,
+  errors = {},
+  readOnly = false,
+ }) {
+  
   return (
     <div className="mobile-form-layout">
       {/* 移動機情報 */}
